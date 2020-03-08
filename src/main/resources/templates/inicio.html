@@ -1,0 +1,229 @@
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="/js/clientes.js"></script>
+<script
+	src=" https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
+
+<div class="container">
+<h3>Definições: </h3><br>
+O intuito dessa página é apenas facilitar as requisições da API, sem considerar o layout da mesma<br>
+Por gentileza disparar todas as requisiçõe atravé dessa URL (por já conter o jquery)<br>
+Detalhe: considerando porta 8080, se usar outra é necessário ajustar nas requisições AJAX o campo url <br>
+Títulos Marcados por (*) são os requisitos obrigatórios
+<br>
+<p>Selecione a opção desejada para verificar a documentação da API</p>
+<button type="button" onclick="mostraEscondeDiv('grupo');">Grupo Produtos</button>
+<button type="button" onclick="mostraEscondeDiv('produto');">Produtos</button>
+<button type="button" onclick="mostraEscondeDiv('nf')">Notas Fiscais</button>
+<button type="button" onclick="mostraEscondeDiv('produtoNF')">Produto Nota Fiscal</button>
+
+
+<div id="produto" style="display:none;">
+<h3>Listar todos os produtos</h3>    <br>
+http://localhost:8080/api/produtos/listAll <br>
+
+<h3>Listar produto por id, considerando id 1</h3>
+http://localhost:8080/api/produtos/1 <br>
+<h3>Adicionar um novo produto: </h3><br>
+
+var produto = {"id":1,"grupoProduto":{"id":1,"nome":"Grupo Um"},"valorUnitario":100.0,"nome":"Produto Novo"}; <br>
+$.ajax({  <br>
+data: JSON.stringify(produto),  <br>
+contentType : 'application/json; charset=utf-8',  <br>
+url : "http://localhost:8080/api/produtos/",  <br>
+type : 'POST',  <br>
+success : function(data) {  <br>
+console.log("Produto Cadastrado com sucesso");  <br>
+},  <br>
+error : function(e) {  <br>
+alert("Erro ao salvar produto, por favor verifique as informações e tente novamente");  <br>
+alert(e.responseJSON.message);  <br>
+er = e;  <br>
+console.log("error: " + e.responseJSON.message);  <br>
+} });  <br>
+
+<h3>Editar um produto</h3> <br>
+var produto = {"id":1,"grupoProduto":{"id":1,"nome":"Grupo Um"},"valorUnitario":1000.0,"nome":"Produto Novo"};  <br>
+var idGrupo = 1; <br>
+$.ajax({ <br>
+data: JSON.stringify(produto), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/produtos/"+ idGrupo, <br>
+type : 'PUT', <br>
+success : function(data) { <br>
+console.log("Produto editado com sucesso"); <br>
+console.log(data); <br>
+}, <br>
+error : function(e) { <br>
+console.log("Erro ao editar produto, por favor verifique as informações e tente novamente"); <br>
+er = e; <br>
+console.log("error: " + e.responseJSON.message);}}); <br>
+</div>
+
+<div id="grupo" style="display:none;">
+<h3>Listar todos os grupos *</h3>    <br>
+http://localhost:8080/api/grupoProdutos/listAll <br>
+
+<h3>Listar grupo por id, considerando o id 1:</h3>    <br>
+http://localhost:8080/api/grupoProdutos/1 <br>
+
+<h3>Buscar grupo pela semelhança do nome digitado, considerando nome digitado: Um</h3>    <br>
+http://localhost:8080/api/grupoProdutos/findLike/Um <br>
+
+<h3>Buscar nome do grupo com maior ocorrência da palavra, considerando letra: e</h3>    <br>
+http://localhost:8080/api/grupoProdutos/findMatchLetter/e <br>
+
+<h3>Buscar nome do grupo com maior ocorrência da palavra</h3>    <br>
+http://localhost:8080/api/grupoProdutos/listAll/?inicio=0&quantidade=15 <br>
+
+<h3>Adicionar um novo grupo de produtos: </h3><br>
+
+var grupo = { "nome": "Produto Novo" }; <br>
+$.ajax({ <br>
+data: JSON.stringify(grupo), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/grupoProdutos/", <br>
+type : 'POST', <br>
+success : function(data) { <br>
+console.log("Grupo de Produto Cadastrado com sucesso"); <br>
+}, <br>
+error : function(e) { <br>
+alert("Erro ao salvar grupo, por favor verifique as informações e tente novamente"); <br>
+alert(e.responseJSON.message); <br>
+er = e; <br>
+console.log("error: " + e.responseJSON.message); <br>
+} });<br>
+   
+    
+<h3>Editar um grupo de produtos</h3>    <br>
+var grupo = { "nome": "Grupo Atualizado "};<br>
+var idGrupo = 1;<br>
+$.ajax({ <br>
+data: JSON.stringify(grupo), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/grupoProdutos/"+ idGrupo, <br>
+type : 'PUT',<br>
+success : function(data) {<br>
+console.log("Grupo editado com sucesso");<br>
+console.log(data);<br>
+},<br>
+error : function(e) {<br>
+console.log("Erro ao editar grupo, por favor verifique as informações e tente novamente");<br>
+er = e;<br>
+console.log("error: " + e.responseJSON.message);<br>
+}<br>
+});<br>
+
+</div>
+
+<div id="nf" style="display: none;">
+
+<h3>Listar todas as notas fiscais *</h3>    <br>
+http://localhost:8080/api/notasFiscais/listAll <br>
+
+<h3>Listar nota fiscal por id, considerando id 1 *</h3>
+http://localhost:8080/api/notasFiscais/1 <br>
+
+<h3>Listar nota fiscal por numero, considerando número 1 *</h3>
+http://localhost:8080/api/notasFiscais?numero=1234<br>
+
+<h3>Adicionar uma nova nota fiscal: </h3><br>
+
+var produto = {"valorTotal":555.0,"numero":"777"}; <br>
+$.ajax({ <br>
+data: JSON.stringify(produto), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/notasFiscais/", <br>
+type : 'POST', <br>
+success : function(data) { <br>
+console.log("Nota Fiscal Cadastrada com sucesso"); <br>
+}, <br>
+error : function(e) { <br>
+alert("Erro ao salvar nota fiscal, por favor verifique as informações e tente novamente"); <br>
+alert(e.responseJSON.message); <br>
+er = e; <br>
+console.log("error: " + e.responseJSON.message); <br>
+} });
+
+<h3>Editar uma nota fiscal</h3>    <br>
+var nf ={"id":1,"valorTotal":2000.0,"numero":"4321"}; <br>
+var id = 1; <br>
+$.ajax({ <br>
+data: JSON.stringify(nf), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/notasFiscais/"+ id, <br>
+type : 'PUT', <br>
+success : function(data) {  <br>
+console.log("Nota Fiscal editada com sucesso"); <br>
+console.log(data); <br>
+}, <br>
+error : function(e) { <br>
+console.log("Erro ao editar nota fiscal, por favor verifique as informações e tente novamente"); <br>
+er = e; <br>
+console.log("error: " + e.responseJSON.message);}}); <br>
+</div>
+
+<div id="produtoNF" style="display:none;">
+
+<h3>Listar todas as relações nota fiscal produto</h3>    <br>
+http://localhost:8080/api/produtosNotaFiscal/listAll <br>
+
+<h3>Listar relação nota fiscal produto por id, considerando id 1</h3>
+http://localhost:8080/api/produtosNotaFiscal/1 <br>
+
+
+
+<h3>Adicionar uma relação nota fiscal produto: </h3> <br>
+var produto = {"id":3,"produto":{"id":3,"grupoProduto":{"id":1,"nome":"Grupo Um"},"valorUnitario":50.0,"nome":"Produto Dois"},"notaFiscal":{"id":1,"valorTotal":20.0,"numero":"1234"},"quantidade":2,"valorUnitario":20.0,"valorTotal":40.0}; <br>
+$.ajax({<br>
+data: JSON.stringify(produto), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/produtosNotaFiscal/", <br>
+type : 'POST', <br>
+success : function(data) { <br>
+console.log("Produto NF Cadastrado com sucesso"); <br>
+}, <br>
+error : function(e) { <br>
+alert("Erro ao salvar produto NF, por favor verifique as informações e tente novamente"); <br>
+alert(e.responseJSON.message); <br> 
+er = e; <br>
+console.log("error: " + e.responseJSON.message); <br>
+} }); <br>
+
+<h3>Editar uma relação nota fiscal produto: </h3> <br>
+var produto =  {"id":1,"produto":{"id":1,"grupoProduto":{"id":1,"nome":"Grupo Um"},"valorUnitario":10.0,"nome":"Produto Um"},"notaFiscal":{"id":1,"valorTotal":20.0,"numero":"1234"},"quantidade":3,"valorUnitario":101010.90,"valorTotal":909090.90}; <br>
+var id = 1; <br>
+$.ajax({ <br>
+data: JSON.stringify(produto), <br>
+contentType : 'application/json; charset=utf-8', <br>
+url : "http://localhost:8080/api/produtosNotaFiscal/"+ id, <br>
+type : 'PUT', <br>
+success : function(data) { <br>
+console.log("Produto NF editado com sucesso"); <br>
+console.log(data); <br>
+}, <br>
+error : function(e) { <br>
+console.log("Erro ao editar produto NF, por favor verifique as informações e tente novamente"); <br>
+er = e; <br>
+console.log("error: " + e.responseJSON.message);}}); <br>
+
+
+
+</div>
+
+
+</div>
+
+<script >
+function mostraEscondeDiv(id){
+	$("#produtoNF").hide();
+	$("#nf").hide();
+	$("#grupo").hide();
+	$("#produto").hide();
+	$("#" + id).show();
+}
+</script>
