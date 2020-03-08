@@ -49,9 +49,9 @@ public class ProdutoNotaFiscalControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 		.andDo(print())
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$[2].valorUnitario", is(1548.0)))
-		.andExpect(jsonPath("$[2].quantidade", is(4)))
-		.andExpect(jsonPath("$[2].valorTotal", is(90544.0)))
+		.andExpect(jsonPath("$[1].valorUnitario", is(20.0)))
+		.andExpect(jsonPath("$[1].quantidade", is(2)))
+		.andExpect(jsonPath("$[1].valorTotal", is(40.0)))
 		;
 
 	}
